@@ -148,5 +148,9 @@ public class Main {
         int[] testArr6 = { 239, 1, 17, 456356738, 8, 6 };
         System.out.println("testArr6 (expected - false): " + Arrays.toString(testArr6));
         System.out.println(checkBalance(testArr6));
+
+
+        //ex07
+
     }
 }
