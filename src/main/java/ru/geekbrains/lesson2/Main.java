@@ -34,6 +34,25 @@ public class Main {
         return false;
     }
 
+    public static void  shiftArr(int[] arr, int n)
+    {
+        int remind;
+        int coef = 1;
+        //запомнили последнее число
+        if (n < 0)
+            coef = -1;
+        for (int i = 0; i < n; i+= coef) {
+//            if (coef > 0)
+                remind = arr[arr.length - 1];
+//            else
+//                remind = arr[i];
+            for (int j = arr.length - 1; j > 0; j--) {
+                arr[j] = arr[j - 1];
+            }
+            arr[0] = remind;
+        }
+    }
+
     public static void main(String[] args) {
         //ex01
         //Задать целочисленный массив, состоящий из элементов 0 и 1.
@@ -151,6 +170,19 @@ public class Main {
 
 
         //ex07
+        //**** Написать метод, которому на вход подается одномерный массив и число n
+        // (может быть положительным, или отрицательным),
+        // при этом метод должен сместить все элементы массива на n позиций.
+        // Элементы смещаются циклично.
+        // Для усложнения задачи нельзя пользоваться вспомогательными массивами.
+        // Примеры: [ 1, 2, 3 ] при n = 1 (на один вправо) -> [ 3, 1, 2 ]; [ 3, 5, 6, 1]
+        // при n = -2 (на два влево) -> [ 6, 1, 3, 5 ]. При каком n в какую сторону сдвиг можете выбирать сами.
+        int[] ex07Arr1 = { 1, 2, 3 };
+        shiftArr(ex07Arr1, 1);
+        System.out.println(Arrays.toString(ex07Arr1));
 
+        int[] ex07Arr2 = { 3, 5, 6, 1 };
+        shiftArr(ex07Arr2, 2);
+        System.out.println(Arrays.toString(ex07Arr2));
     }
 }
