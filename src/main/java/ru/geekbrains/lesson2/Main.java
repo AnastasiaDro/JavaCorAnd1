@@ -34,22 +34,30 @@ public class Main {
         return false;
     }
 
-    public static void  shiftArr(int[] arr, int n)
+//****ex07
+    //я хотела сделать одну универсальную функцию для сдвигов в обе стороны
+    public static void universeShiftArr(int[] arr, int n)
     {
         int remind;
-        int coef = 1;
-        //запомнили последнее число
-        if (n < 0)
-            coef = -1;
-        for (int i = 0; i < n; i+= coef) {
-//            if (coef > 0)
-                remind = arr[arr.length - 1];
-//            else
-//                remind = arr[i];
-            for (int j = arr.length - 1; j > 0; j--) {
-                arr[j] = arr[j - 1];
+        int mN = Math.abs(n);
+        int first = 0;
+        int second = arr.length - 1;
+        int coef = -1;
+
+        if (n < 0) {
+            first = arr.length - 1;
+            coef = 1;
+            second = 0;
+        }
+        for (int i = 0; i < mN; i++) {
+            remind = arr[second];
+            int j = second;
+            while (j != first)
+            {
+                arr[j] = arr[j + coef];
+                j+= coef;
             }
-            arr[0] = remind;
+            arr[first] = remind;
         }
     }
 
@@ -169,7 +177,7 @@ public class Main {
         System.out.println(checkBalance(testArr6));
 
 
-        //ex07
+        //ex07 - строка 37
         //**** Написать метод, которому на вход подается одномерный массив и число n
         // (может быть положительным, или отрицательным),
         // при этом метод должен сместить все элементы массива на n позиций.
@@ -177,12 +185,30 @@ public class Main {
         // Для усложнения задачи нельзя пользоваться вспомогательными массивами.
         // Примеры: [ 1, 2, 3 ] при n = 1 (на один вправо) -> [ 3, 1, 2 ]; [ 3, 5, 6, 1]
         // при n = -2 (на два влево) -> [ 6, 1, 3, 5 ]. При каком n в какую сторону сдвиг можете выбирать сами.
+
+        //test1
+        System.out.println("ex07   ...it was hard!");
+        System.out.println("test1: n = 1\n[1, 2, 3] - > [3, 1, 2]");
         int[] ex07Arr1 = { 1, 2, 3 };
-        shiftArr(ex07Arr1, 1);
+        universeShiftArr(ex07Arr1, 1);
         System.out.println(Arrays.toString(ex07Arr1));
 
-        int[] ex07Arr2 = { 3, 5, 6, 1 };
-        shiftArr(ex07Arr2, 2);
+        //test2
+        System.out.println("\ntest2: n = -1\n[1, 2, 3] - > [2, 3, 1]");
+        int[] ex07Arr2 = { 1, 2, 3 };
+        universeShiftArr(ex07Arr2, 2);
         System.out.println(Arrays.toString(ex07Arr2));
+
+        //test3
+        System.out.println("\ntest3: n = 3\n[1, 2, 3, 10, 9, 8, 10, 11, 12] - > [10, 11, 12, 1, 2, 3, 10, 9, 8]");
+        int[] ex07Arr3 = { 1, 2, 3, 10, 9, 8, 10, 11, 12 };
+        universeShiftArr(ex07Arr3, 3);
+        System.out.println(Arrays.toString(ex07Arr3));
+
+        //test4
+        System.out.println("\ntest4: n = -3\n[1, 2, 3, 10, 9, 8, 10, 11, 12] - > [10, 9, 8, 10, 11, 12, 1, 2, 3]");
+        int[] ex07Arr4 = { 1, 2, 3, 10, 9, 8, 10, 11, 12 };
+        universeShiftArr(ex07Arr4, -3);
+        System.out.println(Arrays.toString(ex07Arr4));
     }
 }
