@@ -79,7 +79,7 @@ public class Main {
         for (int i = 0; i < 10; i++) {
             arr1[i] = arr1[i] == 0 ? (arr1[i] = 1) : (arr1[i] = 0);
         }
-        System.out.println("canged: " + Arrays.toString(arr1));
+        System.out.println("canged:  " + Arrays.toString(arr1));
         System.out.println("Done!");
 
         //ex02
@@ -92,7 +92,7 @@ public class Main {
             arr2[i] = coef;
             coef += 3;
         }
-        System.out.print("arr2 is: " + Arrays.toString(arr2));
+        System.out.println("arr2 is: " + Arrays.toString(arr2));
         System.out.println(" Done!");
 
         //ex03
@@ -150,7 +150,7 @@ public class Main {
         //   части массива равны. Примеры: checkBalance([2, 2, 2, 1, 2, 2, || 10, 1]) → true,
         //   checkBalance([1, 1, 1, || 2, 1]) → true, граница показана символами ||,
         //   эти символы в массив не входят.
-        System.out.println("ex06");
+        System.out.println("\nex06");
         //test1         true (from subject)
         int[] testArr1 = { 2, 2, 2, 1, 2, 2, 10, 1 };
         System.out.println("testArr1 (expected - true): " + Arrays.toString(testArr1));
@@ -187,7 +187,7 @@ public class Main {
         // при n = -2 (на два влево) -> [ 6, 1, 3, 5 ]. При каком n в какую сторону сдвиг можете выбирать сами.
 
         //test1
-        System.out.println("ex07   ...it was hard!");
+        System.out.println("\nex07   ...it was hard!");
         System.out.println("test1: n = 1\n[1, 2, 3] - > [3, 1, 2]");
         int[] ex07Arr1 = { 1, 2, 3 };
         universeShiftArr(ex07Arr1, 1);
