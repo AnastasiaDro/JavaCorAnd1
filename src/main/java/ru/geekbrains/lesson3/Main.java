@@ -42,5 +42,6 @@ public class Main {
             System.out.println("Current status: " + code);
         }
         System.out.print("YOU ARE WIN!");
+        sc.close();
     }
 }
