@@ -5,23 +5,28 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner      sc;
-        StringBuilder       code;
-        String       answer;
-        int          cycleIter;
-        Random       rand;
-        int         r;
-        char        c;
+        Scanner         sc;
+        StringBuilder   code;
+        String          answer;
+        int             cycleIter;
+        Random          rand;
+        int             r;
+        char            c;
+
+        rand = new Random();
         sc = new Scanner(System.in);
+        //Для экономии памяти, чтобы не создавать каждый раз новую строку
+        //Использую StringBuilder
+        //Подскажите, уместно ли это тут? Правильное ли использование? Как сделать лучше?
         code = new StringBuilder("###############");
         String[] words = {"apple", "orange", "lemon", "banana", "apricot", "avocado", "broccoli", "carrot", "cherry", "garlic", "grape", "melon", "leak", "kiwi", "mango", "mushroom", "nut", "olive", "pea", "peanut", "pear", "pepper", "pineapple", "pumpkin", "potato"};
 
-        rand = new Random();
         r    = rand.nextInt(words.length);
         System.out.print("Guess the word game is starting!");
         System.out.println("For exit type: \"EXIT\"");
         System.out.println("The variants:\n\"apple\", \"orange\", \"lemon\", \"banana\",\n\"apricot\", \"avocado\", \"broccoli\", \"carrot\"\n\"cherry\", \"garlic\", \"grape\", \"melon\"\n\"leak\", \"kiwi\", \"mango\", \"mushroom\"\n\"nut\", \"olive\", \"pea\", \"peanut\"\n\"pear\", \"pepper\", \"pineapple\", \"pumpkin\"\n\"potato\"");
-        //ТАК ЛЕГЧЕ ПРОВЕРИТЬ
+
+        //Так легче проверить код
         System.out.println("DEBUG: " + words[r]);
         while(true) {
             System.out.print("Your answer: ");
