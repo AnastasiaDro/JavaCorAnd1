@@ -5,9 +5,10 @@ import java.util.Scanner;
 
 public class Main {
     static Scanner scan;
-    static char arr[][];
+    public static char arr[][];
     static int sizeX;
     static int sizeY;
+    static int targetWinSum;
     public static char EMPTY_CHAR = '?';
     public static char USER_CHAR = 'X';
     public static char COMP_CHAR = 'X';
@@ -28,6 +29,7 @@ public class Main {
         sizeY = scan.nextInt();
         arr = new char[sizeX][sizeY];
         rand = new Random();
+        targetWinSum = sizeX;
     }
 
     public static void fillArea()
@@ -66,7 +68,7 @@ public class Main {
 
     public static void makeStep(int x, int y, char c) {
         arr[x][y] = c;
-        printArea();
+       // printArea();
     }
 
     public static void stepToEmpty(int n, int coord, int size)
@@ -90,128 +92,32 @@ public class Main {
         int x = rand.nextInt(sizeX);
         int y = rand.nextInt(sizeY);
         makeStep(x, y, COMP_CHAR);
+        printArea();
     }
 
-    public static void compStep() {
-        int winSumX = 0;
-        int winSumY = 0;
-        int winSumD1 = 0; //диагональ 1
-        int winSumD2 = 0; //диагональ 2
-        //check horizontal lines and diagonals
-        for (int y = 0; y < sizeY; y++) {
-            for (int x = 0; x < sizeX; x++) {
-                if (arr[x][y] == 'X')
-                {
-                    winSumX++;
-                    if (x == y)
-                        winSumD1++;
-                    if (x + y == 4)
-                        winSumD2++;
-                }
-            }
-            if (winSumX == 4 || winSumD1 == 4 || winSumD2 == 4) {
-                stepToEmpty(y, COORD_Y, sizeX);
-                return;
-            }
-            winSumX = 0;
-        }
-        //check vertical lines
-        for (int x = 0; x < sizeX; x++) {
-            for (int y = 0; y < sizeY; y++) {
-                if (arr[x][y] == 'X')
-                    winSumY++;
-            }
-                if (winSumY == 4) {
-                    stepToEmpty(x, COORD_X, sizeY);
-                    return;
-                }
-                if (winSumY == sizeY)
-                {
-                    stepToEmpty(x, COORD_X, sizeY);
-                    return;
-                }
-                winSumY = 0;
-        }
-        makeRandomStep();
+    public
+
+    public static boolean checkCoords(int x, int y) {
+        return arr[x][y] == '?';
     }
+
+
 
     public static void makeUserStep()
     {
         int x;
         int y;
-        while (true) {
-            System.out.print("Введите x: ");
-            x = scan.nextInt(sizeX);
-            System.out.print("Введите y: ");
-            y = scan.nextInt(sizeY);
-            if (arr[x][y] == EMPTY_CHAR) {
-                makeStep(x, y, USER_CHAR);
-                break;
-            } else {
-                System.out.println("Позиция занята! Выберите другую!");
-            }
-        }
-    }
-    
-    public static boolean checkWin()
-    {
-        int winSumXU = 0;
-        int winSumYU = 0;
-        int winSumD1U = 0; //диагональ 1
-        int winSumD2U = 0; //диагональ 2
 
-        int winSumXcomp = 0;
-        int winSumYcomp = 0;
-        int winSumD1comp = 0; //диагональ 1
-        int winSumD2comp = 0; //диагональ 2
-        //check horizontal lines and diagonals
-        for (int y = 0; y < sizeY; y++) {
-            for (int x = 0; x < sizeX; x++) {
-                if (arr[x][y] == 'X')
-                {
-                    winSumXU++;
-                    if (x == y)
-                        winSumD1U++;
-                    if (x + y == 4)
-                        winSumD2U++;
-                }
-                if (arr[x][y] == 'Y')
-                {
-                    winSumXcomp++;
-                    if (x == y)
-                        winSumD1comp++;
-                    if (x + y == 4)
-                        winSumD2comp++;
-                }
-            }
-            if (winSumXU == 5 || winSumD1U == 5 || winSumD2U == 5) {
-                winner = USER_WIN;
-                return true;
-            }
-            winSumXU = 0;
-            winSumXcomp = 0;
-        }
-        //check vertical lines
-        for (int x = 0; x < sizeX; x++) {
-            for (int y = 0; y < sizeY; y++) {
-                if (arr[x][y] == 'X')
-                    winSumYU++;
-                if (arr[x][y] == 'Y')
-                    winSumYcomp++;
-            }
-            if (winSumYU == 5) {
-                winner = USER_WIN;
-                return true;
-            }
-            if (winSumYcomp == 5)
-            {
-                winner = COMP_WIN;
-                return true;
-            }
-            winSumYU = 0;
-            winSumYcomp = 0;
-        }
-        return false;
+        do {
+            System.out.print("Введи x: ");
+            x = scan.nextInt();
+            System.out.println("Введи y: ");
+            y = scan.nextInt();
+        } while (!checkCoords(x, y));
+
+
+        makeStep(x, y, USER_CHAR);
+        printArea();
     }
 
     public static void main(String[] args) {
@@ -223,22 +129,11 @@ public class Main {
         int min = Math.min(sizeX, sizeY);
         if (COMP_CHAR== 'X') {
             makeRandomStep();
-            printArea();
         }
-        while (true) {
-            makeUserStep();
-            if (counter < min)
-                makeRandomStep();
-            else
-                compStep();
-            printArea();
-            counter++;
-            if (counter < min)
-                continue;
-            if (checkWin())
-                break;
+        makeUserStep();
+
+
         }
         String results = winner == USER_WIN ? "Ты выиграл! Ура!" : "Искусственный интеллект победил! Восстание машин!";
-        System.out.println(results);
     }
-}
+
