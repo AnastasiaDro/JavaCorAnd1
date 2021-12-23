@@ -187,6 +187,58 @@ public class Main {
                 winner = COMP_WIN;
                 return true;
             }
+            compSteps = 0;
+            userSteps = 0;
+        }
+        //диагонали
+        int j;
+        for (int i = 0; i < sizeX; i++) {
+            j = i;
+            if (arr[i][j] == '?')
+               return false;
+            if (arr[i][j] == USER_CHAR)
+                userSteps++;
+            else
+                compSteps++;
+            if (userSteps == sizeX) {
+                winner = USER_WIN;
+                return true;
+            }
+            if (compSteps == sizeX) {
+                winner = COMP_WIN;
+                return true;
+            }
+        }
+
+        /*
+            00  01  02  03 04
+            10  11  12  13 14
+            20  21  22  23 24
+            30  31  32  33 34
+            40  41  42  43 44
+
+
+
+         */
+
+
+        //диагональ 2
+        for (int i = 0; i < sizeX; i++) {
+            j = sizeX -1 - i;
+            if (arr[i][j] == '?')
+                return false;
+            if (arr[i][j] == USER_CHAR)
+                userSteps++;
+            else
+                compSteps++;
+            if (userSteps == sizeX) {
+                winner = USER_WIN;
+                return true;
+            }
+            if (compSteps == sizeX) {
+                winner = COMP_WIN;
+                return true;
+            }
         }
         return false;
     }
@@ -207,11 +259,13 @@ public class Main {
 //        do {
 //            makeUserStep();
 //            makeCompStep();
-//        } while (!isWin());
+//        } while (!isWin(arr));
 
-        char[][] arrtest = { {'X',    '?',   'X'},
-                            {'?', '?', '?'},
-                            {'?', '?', '?'}};
+        USER_CHAR = 'X';
+        COMP_CHAR = '0';
+        char[][] arrtest = { {'0',    '?',   'X'},
+                            {'?', 'X', '?'},
+                            {'X', '?', '0'}};
         System.out.println(isWin(arrtest));
 
         String results = winner == USER_WIN ? "Ты выиграл! Ура!" : "Искусственный интеллект победил! Восстание машин!";
