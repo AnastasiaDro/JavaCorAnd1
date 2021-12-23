@@ -9,6 +9,10 @@ public class Main {
     static int sizeX;
     static int sizeY;
     static int targetWinSum;
+    static String NAPR_USER;
+    static String NAPR_COMP;
+    static int line_USER;
+    static int line_COMP;
     public static char EMPTY_CHAR = '?';
     public static char USER_CHAR = 'X';
     public static char COMP_CHAR = 'X';
@@ -64,23 +68,10 @@ public class Main {
     }
 
     public static void makeStep(int x, int y, char c) {
+        if (y == sizeY)
+            y--;
         arr[x][y] = c;
         printArea();
-    }
-
-    public static void stepToEmpty(int n, int coord, int size) {
-        int f = 0;
-        int s = 0;
-        if (coord == COORD_Y)
-            s = n;
-        else
-            f = n;
-
-        while (f < size) {
-            if (arr[f][s] == '?')
-                makeStep(f, n, COMP_CHAR);
-            f++;
-        }
     }
 
     public static void makeRandomStep() {
@@ -138,9 +129,225 @@ public class Main {
         printArea();
     }
 
-    public static void makeCompStep() {
 
+
+    public static void makeCompStep() {
+        int userSteps = 0;
+        int compSteps = 0;
+        int whereC = -1;
+        int whereU = -1;
+
+        int[] userResults = new int[8];
+        for (int i = 0; i < userResults.length; i++) {
+            userResults[i] = -1;
+        }
+
+
+        int[] compResults = new int[8];
+        for (int i = 0; i < compResults.length; i++) {
+            compResults[i] = -1;
+        }
+
+/*что надо сделать:
+   перебрать все строки и найти, в каком направлении больше всего шагов у юзера
+   в каком направлении больше всего шагов у компа и есть ли там свободное место
+
+ */
+
+
+        int bestCompRes = 0;
+        int bestUserRes = 0;
+        int emptyX = -1;
+        int emptyY = -1;
+        int finalEmptyUserX = -1;
+        int finalEmptyUserY = -1;
+        int finalEmptyCompX = -1;
+        int finalEmptyCompY = -1;
+
+        boolean haveEmpty = false;
+        int k = 0;
+        //проверим все горизонтальные линии
+        for (int i = 0; i < sizeY; i++) {
+            for (k = 0; k < sizeX; k++) {
+                if (arr[i][k] == '?')
+                {
+                    haveEmpty = true;
+                    emptyX = k;
+                    emptyY = i;
+                }
+
+                if (arr[i][k] == COMP_CHAR)
+                    compSteps++;
+                else
+                    userSteps++;
+            }
+//
+            //если число шагов почти равно нужному
+            if (userSteps == sizeX - 1) {
+                makeStep(i, k, COMP_CHAR);
+                return;
+            }
+            if (compSteps == sizeX - 1)
+            {
+                makeStep(i, k, COMP_CHAR);
+                return;
+            }
+
+            //запомним максимальное число шагов
+
+
+
+            if (compSteps > bestCompRes && haveEmpty) {
+                bestCompRes = compSteps;
+                finalEmptyCompX = emptyX;
+                finalEmptyCompY = emptyY;
+                //узнали, что лучшее число шагов такое-то
+            }
+            if (userSteps > bestUserRes && haveEmpty) {
+               bestUserRes = userSteps;
+               finalEmptyUserX = emptyX;
+               finalEmptyUserY = emptyY;
+            }
+
+            compSteps = 0;
+            userSteps = 0;
+            haveEmpty = false;
+        }
+
+
+        //проверим всё по вертикали
+        haveEmpty = false;
+        int u = 0;
+        for (int x = 0; x < sizeX; x++) {
+            for (u = 0; u < sizeY; u++) {
+                {
+                    haveEmpty = true;
+                    emptyX = u;
+                    emptyY = x;
+                }
+                if (arr[u][x] == USER_CHAR)
+                    userSteps++;
+                else
+                    compSteps++;
+            }
+            if (userSteps == sizeX - 1) {
+                makeStep(x, u, COMP_CHAR);
+                return;
+            }
+            if (compSteps == sizeX - 1)
+            {
+                makeStep(x, u, COMP_CHAR);
+                return;
+            }
+            if (compSteps > bestCompRes && haveEmpty) {
+                bestCompRes = compSteps;
+                finalEmptyCompX = emptyX;
+                finalEmptyCompY = emptyY;
+                //узнали, что лучшее число шагов такое-то
+            }
+            if (userSteps > bestUserRes && haveEmpty) {
+                bestUserRes = userSteps;
+                finalEmptyUserX = emptyX;
+                finalEmptyUserY = emptyY;
+            }
+            compSteps = 0;
+            userSteps = 0;
+            haveEmpty = false;
+        }
+        //диагонали
+        haveEmpty = false;
+        int j;
+        for (int i = 0; i < sizeX; i++) {
+            j = i;
+            if (arr[i][j] == '?')
+                break;
+            if (arr[i][j] == USER_CHAR)
+                userSteps++;
+            else
+                compSteps++;
+            if (userSteps == sizeX - 1) {
+                makeStep(i, j, COMP_CHAR);
+                return;
+            }
+            if (compSteps == sizeX - 1)
+            {
+                makeStep(i, j, COMP_CHAR);
+                return;
+            }
+            if (compSteps > bestCompRes && haveEmpty) {
+                bestCompRes = compSteps;
+                finalEmptyCompX = emptyX;
+                finalEmptyCompY = emptyY;
+                //узнали, что лучшее число шагов такое-то
+            }
+            if (userSteps > bestUserRes && haveEmpty) {
+                bestUserRes = userSteps;
+                finalEmptyUserX = emptyX;
+                finalEmptyUserY = emptyY;
+            }
+
+
+        }
+        compSteps = 0;
+        userSteps = 0;
+        haveEmpty = false;
+        //диагональ 2
+        for (int i = 0; i < sizeX; i++) {
+            j = sizeX -1 - i;
+            if (arr[i][j] == '?')
+            {
+                haveEmpty = true;
+                emptyX = j;
+                emptyY = i;
+            }
+
+            if (arr[i][j] == '?')
+                break;
+            if (arr[i][j] == USER_CHAR)
+                userSteps++;
+            else
+                compSteps++;
+            if (userSteps == sizeX - 1) {
+                makeStep(i, j, COMP_CHAR);
+                return;
+            }
+            if (compSteps == sizeX - 1)
+            {
+                makeStep(i, j, COMP_CHAR);
+                return;
+            }
+            if (compSteps > bestCompRes && haveEmpty) {
+                bestCompRes = compSteps;
+                finalEmptyCompX = emptyX;
+                finalEmptyCompY = emptyY;
+                //узнали, что лучшее число шагов такое-то
+            }
+            if (userSteps > bestUserRes && haveEmpty) {
+                bestUserRes = userSteps;
+                finalEmptyUserX = emptyX;
+                finalEmptyUserY = emptyY;
+            }
+            haveEmpty = false;
+        }
+
+        finalEmptyCompX = checkValue(finalEmptyCompX);
+        finalEmptyCompY = checkValue(finalEmptyCompY);
+        finalEmptyUserX = checkValue(finalEmptyUserX);
+        finalEmptyUserY = checkValue(finalEmptyUserY);
+        if (bestUserRes > bestCompRes)
+            makeStep(finalEmptyUserX, finalEmptyUserY, COMP_CHAR);
+        else
+            makeStep(finalEmptyCompX, finalEmptyCompY, COMP_CHAR);
+        printArea();
     }
+
+    public static int checkValue(int val)
+    {
+        if (val == sizeX)
+            return val - 1;
+        return val;
+    }
+
 
     public static boolean isWin(char[][] arr) {
         int userSteps = 0;
@@ -210,18 +417,6 @@ public class Main {
             }
         }
 
-        /*
-            00  01  02  03 04
-            10  11  12  13 14
-            20  21  22  23 24
-            30  31  32  33 34
-            40  41  42  43 44
-
-
-
-         */
-
-
         //диагональ 2
         for (int i = 0; i < sizeX; i++) {
             j = sizeX -1 - i;
@@ -253,20 +448,13 @@ public class Main {
 
         int counter = 0;
         int min = Math.min(sizeX, sizeY);
-//        if (COMP_CHAR== 'X') {
-//            makeFirstCompStep();
-//        }
-//        do {
-//            makeUserStep();
-//            makeCompStep();
-//        } while (!isWin(arr));
-
-        USER_CHAR = 'X';
-        COMP_CHAR = '0';
-        char[][] arrtest = { {'0',    '?',   'X'},
-                            {'?', 'X', '?'},
-                            {'X', '?', '0'}};
-        System.out.println(isWin(arrtest));
+        if (COMP_CHAR== 'X') {
+            makeFirstCompStep();
+        }
+        do {
+            makeUserStep();
+            makeCompStep();
+        } while (!isWin(arr));
 
         String results = winner == USER_WIN ? "Ты выиграл! Ура!" : "Искусственный интеллект победил! Восстание машин!";
         System.out.println(results);
